@@ -1,4 +1,4 @@
-package S05T02.interactive_cv.controller;
+package S05T02.interactive.cv.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

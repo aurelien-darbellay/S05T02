@@ -1,4 +1,4 @@
-package S05T02.interactive_cv.security;
+package S05T02.interactive.cv.security;
 
 
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,6 @@ import org.springframework.security.web.server.authentication.ServerAuthenticati
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.csrf.ServerCsrfTokenRepository;
-import org.springframework.security.web.server.csrf.ServerCsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -32,17 +31,18 @@ public class MySecurityConfig {
         http
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .cors(cors -> cors.configurationSource(corsConfig))
-                //.csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .csrf(csrf ->
+
+                /*.csrf(csrf ->
                         csrf.csrfTokenRepository(csrfTokenRepository)
                                 .csrfTokenRequestHandler(new ServerCsrfTokenRequestAttributeHandler())
-                )
+                )*/
                 .authorizeExchange(exchanges ->
                         exchanges
                                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                                 .pathMatchers("/login", "/hola", "/csrf").permitAll()
                                 .anyExchange().authenticated()
                 )
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(form -> form
                         .authenticationSuccessHandler(authenticationSuccessHandler));
         return http.build();
@@ -52,9 +52,9 @@ public class MySecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:8080"));  // your front-end origin
-        cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-XSRF-TOKEN"));
+        cfg.setAllowedOriginPatterns(List.of("*"));  // your front-end origin
+        cfg.setAllowedMethods(List.of("*"));
+        cfg.setAllowedHeaders(List.of("*"));
         cfg.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
         src.registerCorsConfiguration("/**", cfg);

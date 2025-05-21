@@ -1,4 +1,4 @@
-package S05T02.interactive_cv.security;
+package S05T02.interactive.cv.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +13,7 @@ import java.util.List;
 public class MockUserDetails implements UserDetails {
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

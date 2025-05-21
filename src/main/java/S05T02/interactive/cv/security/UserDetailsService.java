@@ -1,4 +1,4 @@
-package S05T02.interactive_cv.security;
+package S05T02.interactive.cv.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
