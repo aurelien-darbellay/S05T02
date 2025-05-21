@@ -55,7 +55,7 @@ public class MySecurityConfig {
         cfg.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:8080"));  // your front-end origin
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-XSRF-TOKEN"));
-        cfg.setAllowCredentials(false);
+        cfg.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
         src.registerCorsConfiguration("/**", cfg);
         return src;
@@ -66,7 +66,7 @@ public class MySecurityConfig {
     public ServerCsrfTokenRepository csrfTokenRepository() {
         CookieServerCsrfTokenRepository csrfTokenRepository = CookieServerCsrfTokenRepository.withHttpOnlyFalse();
         csrfTokenRepository.setCookieCustomizer(builder -> builder
-                .sameSite("Strict")   // or "Lax", "None"
+                .sameSite("None")   // or "Lax", "None"
                 .secure(true)         // important if using SameSite=None
                 .path("/")            // optional, sets cookie path
         );
@@ -76,6 +76,7 @@ public class MySecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+
     }
 
     @Bean
